@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ankitwa - AI Chatbot</title>
+    <style>
+        body {
+            background-color: rgb(50, 49, 49);
+            font-family: Arial, sans-serif;
+            text-align: center;
+            color: white;
+        }
+
+        body h2 {
+            margin-top: 30px;
+            font-size: 30px;
+            color: white;
+            font-family: Poppins, sans-serif;
+        }
+
+        #chatbox {
+            width: 50%;
+            margin: auto;
+            padding: 50px;
+            border: 1px solid #ccc;
+            background-color: rgb(150, 148, 148);
+            border-radius: 10px;
+            color: black;
+        }
+
+        input {
+            width: 53%;
+            padding: 5px;
+            background-color: beige;
+            border-radius: 10px;
+            font-size: small;
+        }
+
+        button {
+            margin-top: 10px;
+            padding: 5px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <h2>Ankitwa - AI Chatbot</h2>
+    <div id="chatbox"></div>
+    <input type="text" id="userInput" placeholder="Type a message...">
+    <button onclick="sendMessage()">Send</button>
+
+    <script>
+        const BACKEND_URL = https://f9a54a0f-a34e-4104-a683-ac05b4ee7b4e-00-3o51gpaepeyj.sisko.replit.dev/;  // Replace with your Replit URL
+
+        function sendMessage() {
+            let userInput = document.getElementById("userInput");
+            let userText = userInput.value.trim();
+
+            if (userText === "") return;  // Prevent empty messages
+
+            document.getElementById("chatbox").innerHTML += "<p><b>You:</b> " + userText + "</p>";
+
+            fetch(BACKEND_URL + "/chat", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ message: userText })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById("chatbox").innerHTML += "<p><b>Ankitwa:</b> " + data.response + "</p>";
+                });
+
+            userInput.value = "";  // Clear input after sending
+            userInput.focus();
+        }
+
+        // Send message on Enter key press
+        document.getElementById("userInput").addEventListener("keypress", function (event) {
+            if (event.key === "Enter") {
+                sendMessage();
+            }
+        });
+    </script>
+
+</body>
+
+</html>
